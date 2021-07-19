@@ -15,7 +15,7 @@ class _PaymentState extends State<Payment> {
         title: Text("Payment"),
       ),
       body: WebView(
-        initialUrl: "http://127.0.0.1:8000/add_tron/",
+        initialUrl: "https://www.cryptocraze.co.in/add_tron/",
         javascriptMode: JavascriptMode.unrestricted,
         onWebViewCreated: (WebViewController webViewController) {
           _controller = webViewController;

@@ -58,7 +58,7 @@ class _SignupState extends State<Signup> {
                     margin:
                         new EdgeInsets.only(right: 35, left: 35, bottom: 10),
                     child: Image(
-                      image: AssetImage('assets/images/signup.png'),
+                      image: AssetImage('assets/images/crazelogo.png'),
                       height: 220.0,
                       width: 220.0,
                     ),
@@ -255,7 +255,7 @@ class _SignupState extends State<Signup> {
   }
 
   Future<http.Response> createUser() async {
-    var url = Uri.parse('http://127.0.0.1:8000/api/register/');
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/register/');
 
     Map data = {
       'first_name': firstNameController.text,

@@ -65,12 +65,12 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
     ]);
   }
 
-  Future<List<dynamic>> fetchData() async {
+  Future<Map<String, dynamic>> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
     token = "Token " + token;
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/return-pack/');
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/return-pack/');
     var res = await http.get(
       url,
       headers: <String, String>{
@@ -78,9 +78,34 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
         "Authorization": token,
       },
     );
+    Map<String, dynamic> responseData = json.decode(res.body);
+
+    return responseData;
+  }
+
+  Future<void> updateLinkClick(int amount) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+    token = "Token " + token;
+
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/link-click/');
+    Map data = {
+      "amount": amount,
+    };
+
+    var body = json.encode(data);
+    var res = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Authorization": token,
+      },
+      body: body,
+    );
+    // print(res.body);
     var responseData = json.decode(res.body);
-    print(responseData['data']);
-    return responseData['data'];
+    print("message-->" + responseData['message']);
+    return res;
   }
 
   Future<List<dynamic>> fetchLevelIncome() async {
@@ -88,7 +113,7 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
     String token = prefs.getString("token");
     token = "Token " + token;
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/level-income/');
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/level-income/');
     var res = await http.get(
       url,
       headers: <String, String>{
@@ -106,7 +131,7 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
     String token = prefs.getString("token");
     token = "Token " + token;
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/roi-on-roi/');
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/roi-on-roi/');
     var res = await http.get(
       url,
       headers: <String, String>{
@@ -120,29 +145,89 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
   }
 
   Widget projectWidget() {
-    return FutureBuilder<List<dynamic>>(
+    return FutureBuilder<Map<String, dynamic>>(
         future: fetchData(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
                 // scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.all(8),
-                itemCount: snapshot.data.length,
+                itemCount: snapshot.data['data'].length,
                 itemBuilder: (BuildContext context, int index) {
-                  if (snapshot.data[index]['amount'] == 10.0) {
-                    return cardWidget("01", "10", "0.1", "200");
+                  if (snapshot.data['data'][index]['amount'] == 10.0) {
+                    return cardWidget(
+                      "01",
+                      "10",
+                      "0.1",
+                      "200",
+                      snapshot.data['links'][0]['link1'],
+                      snapshot.data['links'][0]['link2'],
+                      snapshot.data['links'][0]['link3'],
+                      snapshot.data['links'][0]['link4'],
+                      snapshot.data['links'][0]['link5'],
+                      snapshot.data['links'][0]['link6'],
+                      snapshot.data['links'][0]['link7'],
+                    );
                   }
-                  if (snapshot.data[index]['amount'] == 50.0) {
-                    return cardWidget("02", "50", "1", "125");
+                  if (snapshot.data['data'][index]['amount'] == 50.0) {
+                    return cardWidget(
+                      "02",
+                      "50",
+                      "1",
+                      "125",
+                      snapshot.data['links'][0]['link1'],
+                      snapshot.data['links'][0]['link2'],
+                      snapshot.data['links'][0]['link3'],
+                      snapshot.data['links'][0]['link4'],
+                      snapshot.data['links'][0]['link5'],
+                      snapshot.data['links'][0]['link6'],
+                      snapshot.data['links'][0]['link7'],
+                    );
                   }
-                  if (snapshot.data[index]['amount'] == 100.0) {
-                    return cardWidget("03", "100", "2", "125");
+                  if (snapshot.data['data'][index]['amount'] == 100.0) {
+                    return cardWidget(
+                      "03",
+                      "100",
+                      "2",
+                      "125",
+                      snapshot.data['links'][0]['link1'],
+                      snapshot.data['links'][0]['link2'],
+                      snapshot.data['links'][0]['link3'],
+                      snapshot.data['links'][0]['link4'],
+                      snapshot.data['links'][0]['link5'],
+                      snapshot.data['links'][0]['link6'],
+                      snapshot.data['links'][0]['link7'],
+                    );
                   }
-                  if (snapshot.data[index]['amount'] == 500.0) {
-                    return cardWidget("04", "500", "15", "100");
+                  if (snapshot.data['data'][index]['amount'] == 500.0) {
+                    return cardWidget(
+                      "04",
+                      "500",
+                      "15",
+                      "100",
+                      snapshot.data['links'][0]['link1'],
+                      snapshot.data['links'][0]['link2'],
+                      snapshot.data['links'][0]['link3'],
+                      snapshot.data['links'][0]['link4'],
+                      snapshot.data['links'][0]['link5'],
+                      snapshot.data['links'][0]['link6'],
+                      snapshot.data['links'][0]['link7'],
+                    );
                   }
-                  if (snapshot.data[index]['amount'] == 1000.0) {
-                    return cardWidget("05", "1000", "30", "1000");
+                  if (snapshot.data['data'][index]['amount'] == 1000.0) {
+                    return cardWidget(
+                      "05",
+                      "1000",
+                      "30",
+                      "1000",
+                      snapshot.data['links'][0]['link1'],
+                      snapshot.data['links'][0]['link2'],
+                      snapshot.data['links'][0]['link3'],
+                      snapshot.data['links'][0]['link4'],
+                      snapshot.data['links'][0]['link5'],
+                      snapshot.data['links'][0]['link6'],
+                      snapshot.data['links'][0]['link7'],
+                    );
                   }
                 });
           } else {
@@ -151,25 +236,46 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
         });
   }
 
-  Widget popUp(String amount) {
+  Widget popUp(
+    String amount,
+    String link1,
+    String link2,
+    String link3,
+    String link4,
+    String link5,
+    String link6,
+    String link7,
+  ) {
     int amt = int.parse(amount);
     if (amt == 10) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link1);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link1,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link2);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link2,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
         ],
       );
@@ -179,32 +285,56 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link1);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link1,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link2);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link2,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link3);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link3,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link4);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link4,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
         ],
       );
@@ -214,32 +344,56 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link1);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link1,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link2);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link2,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link3);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link3,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link4);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link4,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
         ],
       );
@@ -249,46 +403,79 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link1);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link1,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link2);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link2,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link3);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link3,
+              style: TextStyle(fontFamily: "Roboto", color: Colors.blue),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link4);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link4,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link5);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link5,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link6);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link6,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
         ],
       );
@@ -298,60 +485,111 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link1);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link1,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link2);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link2,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link3);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link3,
+              style: TextStyle(fontFamily: "Roboto", color: Colors.blue),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link4);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link4,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link5);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link5,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link6);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link6,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
           InkWell(
-            onTap: () => launch(
-                'https://docs.flutter.io/flutter/services/UrlLauncher-class.html'),
-            child: Text('https://pypi.org/project/django-rest-passwordreset/',
-                style:
-                    TextStyle(fontFamily: "Roboto", color: Color(0xFF465A64))),
+            onTap: () {
+              launch(link7);
+              updateLinkClick(amt);
+            },
+            child: Text(
+              link7,
+              style: TextStyle(
+                fontFamily: "Roboto",
+                color: Colors.blue,
+              ),
+            ),
           ),
         ],
       );
     }
   }
 
-  Widget cardWidget(String name, String amount, String profit, String day) {
+  Widget cardWidget(
+    String name,
+    String amount,
+    String profit,
+    String day,
+    String link1,
+    String link2,
+    String link3,
+    String link4,
+    String link5,
+    String link6,
+    String link7,
+  ) {
     return Center(
       child: new Container(
           margin: const EdgeInsets.all(15),
@@ -461,7 +699,7 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
                     margin: EdgeInsets.only(
                         left: 60.0, right: 60.0, top: 5.0, bottom: 5.0),
                     child: Text(
-                      " Cheak Daily Income ",
+                      " Check Daily Income ",
                       style: TextStyle(color: Colors.white),
                     ),
                   ),
@@ -484,12 +722,30 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
                     return showDialog(
                           context: context,
                           builder: (context) => AlertDialog(
-                            title: Text(
-                                'Are you sure, to complete this task then follow the link!!',
-                                style: TextStyle(
-                                    fontFamily: "Roboto",
-                                    color: Color(0xFF465A64))),
-                            content: popUp(amount),
+                            title: Container(
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.topRight,
+                                    colors: [Colors.orange, Colors.pink]),
+                                //Color(0xFF21283A),
+                              ),
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: 60.0,
+                                    right: 60.0,
+                                    top: 5.0,
+                                    bottom: 5.0),
+                                child: Text(
+                                  'Are you sure, to complete this task then follow the link!!',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                            ),
+                            content: popUp(amount, link1, link2, link3, link4,
+                                link5, link6, link7),
                             actions: <Widget>[
                               FlatButton(
                                 onPressed: () =>
@@ -794,7 +1050,10 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
         title: Text("Purchased Packages"),
         bottom: getTabBar(),
       ),
-      body: getTabBarPages(),
+      body: Container(
+        margin: EdgeInsets.only(bottom: 100.0),
+        child: getTabBarPages(),
+      ),
     );
   }
 }

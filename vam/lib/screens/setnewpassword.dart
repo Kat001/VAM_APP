@@ -159,7 +159,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
     token = "Token " + token;
-    var url = Uri.parse('http://127.0.0.1:8000/api/change-password/');
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/change-password/');
 
     Map data = {
       'cPassword': _oldPasswordController.text,

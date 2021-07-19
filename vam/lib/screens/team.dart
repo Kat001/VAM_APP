@@ -28,7 +28,7 @@ class _TeamState extends State<Team> {
     String token = prefs.getString("token");
     token = "Token " + token;
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/level-$level/');
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/level-$level/');
     var res = await http.get(
       url,
       headers: <String, String>{

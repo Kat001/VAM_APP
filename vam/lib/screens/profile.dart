@@ -32,7 +32,7 @@ class _ProfileState extends State<Profile> {
     String token = prefs.getString("token");
     token = "Token " + token;
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/user-profile/');
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/user-profile/');
     var res = await http.get(
       url,
       headers: <String, String>{
@@ -152,7 +152,7 @@ class _ProfileState extends State<Profile> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           SizedBox(height: 12.0),
-                          rowWidget("Available TRX:", fund),
+                          rowWidget("Available BUSD:", fund),
                           SizedBox(height: 12.0),
                           Center(
                             child: Container(
@@ -173,7 +173,7 @@ class _ProfileState extends State<Profile> {
                                 minWidth: 250.0,
                                 height: 10,
                                 child: Text(
-                                  "Purchase TRX",
+                                  "Purchase BUSD",
                                   style: TextStyle(
                                     fontFamily: 'RobotoBold',
                                     fontSize: 18,

@@ -31,9 +31,10 @@ class _HomePageState extends State<HomePage> {
     fetchData();
   }
 
-  void _launchURL() async => await canLaunch("http://127.0.0.1:8000/add_tron/")
-      ? await launch("http://127.0.0.1:8000/add_tron/")
-      : throw 'Could not launch http://127.0.0.1:8000/add_tron/';
+  void _launchURL() async =>
+      await canLaunch("https://www.cryptocraze.co.in/add_tron/")
+          ? await launch("https://www.cryptocraze.co.in/add_tron/")
+          : throw 'Could not launch https://www.cryptocraze.co.in/add_tron/';
 
   Future fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -46,7 +47,7 @@ class _HomePageState extends State<HomePage> {
 
     var body = json.encode(data);
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/main-page/');
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/main-page/');
     var res = await http.get(
       url,
       headers: <String, String>{
@@ -419,7 +420,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       SizedBox(height: 10.0),
                       Text(
-                        "Add TRX",
+                        "Add BUSD",
                         style: TextStyle(color: Colors.white),
                       ),
                       SizedBox(height: 20.0),
@@ -567,16 +568,32 @@ class _HomePageState extends State<HomePage> {
         showIndicator: true,
         indicatorBgPadding: 7.0,
         images: [
+          // Container(
+          //   margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
+          //   child: Image(
+          //     image: AssetImage('assets/images/crypto.png'),
+          //     height: 220.0,
+          //     width: 220.0,
+          //   ),
+          // ),
+          Container(
+            margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
+            child: Image(
+              image: AssetImage('assets/images/crazelogo.png'),
+              height: 220.0,
+              width: 220.0,
+            ),
+          ),
           NetworkImage(
-              'https://media.istockphoto.com/photos/financial-graph-on-technology-abstract-background-picture-id913219882?b=1&k=6&m=913219882&s=170667a&w=0&h=rmh_a4kc_g0ogK6XN57U6ixfvhs402XgWbSqRFzT-Z8='),
+              'https://media.istockphoto.com/photos/popular-social-media-website-logos-on-computer-screen-picture-id477420084'),
           NetworkImage(
               'https://cdn.pixabay.com/photo/2015/01/09/11/08/startup-594090__340.jpg'),
           NetworkImage(
-              'https://media.istockphoto.com/photos/screen-trading-picture-id1202317640?s=612x612'),
+              'https://media.istockphoto.com/photos/man-sitting-the-macbook-retina-with-site-google-on-screen-picture-id502558343?s=612x612'),
           NetworkImage(
               'https://cdn.pixabay.com/photo/2015/01/09/11/08/startup-594090__340.jpg'),
           NetworkImage(
-              'https://cdn.pixabay.com/photo/2016/11/29/09/16/architecture-1868667_1280.jpg'),
+              'https://media.istockphoto.com/photos/pyramid-of-social-media-icons-facebook-on-top-picture-id521107425?s=612x612'),
         ],
       ),
     );
@@ -627,7 +644,7 @@ class _HomePageState extends State<HomePage> {
 
     var body = json.encode(data);
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/purchase-package/');
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/purchase-package/');
     var res = await http.post(
       url,
       headers: <String, String>{
@@ -665,7 +682,7 @@ class _HomePageState extends State<HomePage> {
 
     var body = json.encode(data);
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/transfer-fund/');
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/transfer-fund/');
     var res = await http.post(
       url,
       headers: <String, String>{

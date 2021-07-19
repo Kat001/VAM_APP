@@ -102,6 +102,8 @@ flutter:
     - assets/images/ic_done.png
     - assets/images/mapp.jpg
     - assets/images/wrong.gif
+    - assets/images/crazelogo.png
+    - assets/images/crypto.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

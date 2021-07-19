@@ -55,7 +55,7 @@ class _SetPasswordState extends State<SetPassword> {
                 Container(
                   margin: new EdgeInsets.only(top: 1, right: 35, left: 35),
                   child: Image(
-                    image: AssetImage('assets/images/logins.png'),
+                    image: AssetImage('assets/images/crazelogo.png'),
                     height: 266.0,
                     width: 266.0,
                   ),

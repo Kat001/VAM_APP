@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
                 Container(
                   margin: new EdgeInsets.only(top: 1, right: 35, left: 35),
                   child: Image(
-                    image: AssetImage('assets/images/logins.png'),
+                    image: AssetImage('assets/images/crazelogo.png'),
                     height: 266.0,
                     width: 266.0,
                   ),
@@ -218,7 +218,7 @@ class _LoginState extends State<Login> {
   Future<http.Response> loginUser() async {
     String user_id = user_idController.text;
     String user_pass = user_passController.text;
-    var url = Uri.parse('http://127.0.0.1:8000/api/api-token-auth/');
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/api-token-auth/');
 
     Map data = {
       "username": user_idController.text,

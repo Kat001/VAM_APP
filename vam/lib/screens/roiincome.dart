@@ -195,7 +195,8 @@ class _RoiIncomeState extends State<RoiIncome> {
 
     var body = json.encode(data);
 
-    var url = Uri.parse('http://127.0.0.1:8000/api/check-daily-income/');
+    var url =
+        Uri.parse('https://www.cryptocraze.co.in/api/check-daily-income/');
     var res = await http.post(
       url,
       headers: <String, String>{
