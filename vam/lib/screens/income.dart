@@ -102,7 +102,7 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
       },
       body: body,
     );
-    // print(res.body);
+
     var responseData = json.decode(res.body);
     print("message-->" + responseData['message']);
     return res;
@@ -595,22 +595,23 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
           margin: const EdgeInsets.all(15),
           padding: const EdgeInsets.all(5.0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.topRight,
-                  colors: [
-                    Colors.green,
-                    Colors.transparent,
-                  ]),
-              //color: Colors.black45, //Color(0xFF21283A),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0xFF21283A),
-                  blurRadius: 5.0,
-                  spreadRadius: 5.0,
-                )
-              ]),
+            borderRadius: BorderRadius.circular(8),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.topRight,
+                colors: [
+                  Colors.green,
+                  Colors.transparent,
+                ]),
+            //color: Colors.black45, //Color(0xFF21283A),
+            boxShadow: [
+              BoxShadow(
+                color: Color(0xFF21283A),
+                blurRadius: 5.0,
+                spreadRadius: 5.0,
+              )
+            ],
+          ),
           child: Column(
             children: [
               SizedBox(height: 10.0),
@@ -663,7 +664,7 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        "      day     ",
+                        "      days     ",
                         style: TextStyle(color: Colors.white),
                       ),
                       Text(
@@ -718,58 +719,57 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
                   //Color(0xFF21283A),
                 ),
                 child: InkWell(
-                  onTap: () {
-                    return showDialog(
-                          context: context,
-                          builder: (context) => AlertDialog(
-                            title: Container(
-                              padding: const EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                gradient: LinearGradient(
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.topRight,
-                                    colors: [Colors.orange, Colors.pink]),
-                                //Color(0xFF21283A),
-                              ),
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                    left: 60.0,
-                                    right: 60.0,
-                                    top: 5.0,
-                                    bottom: 5.0),
-                                child: Text(
-                                  'Are you sure, to complete this task then follow the link!!',
-                                  style: TextStyle(color: Colors.white),
+                    onTap: () {
+                      return showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Container(
+                                padding: const EdgeInsets.all(5.0),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.topRight,
+                                      colors: [Colors.orange, Colors.pink]),
+                                  //Color(0xFF21283A),
+                                ),
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      left: 60.0,
+                                      right: 60.0,
+                                      top: 5.0,
+                                      bottom: 5.0),
+                                  child: Text(
+                                    'Are you sure, to complete this task then follow the link!!',
+                                    style: TextStyle(color: Colors.white),
+                                  ),
                                 ),
                               ),
+                              content: popUp(amount, link1, link2, link3, link4,
+                                  link5, link6, link7),
+                              actions: <Widget>[
+                                FlatButton(
+                                  onPressed: () =>
+                                      Navigator.of(context).pop(false),
+                                  /*Navigator.of(context).pop(true)*/
+                                  child: Text('ok',
+                                      style: TextStyle(
+                                          fontFamily: "RobotoBold",
+                                          color: Color(0xFF2BCDB4))),
+                                ),
+                              ],
                             ),
-                            content: popUp(amount, link1, link2, link3, link4,
-                                link5, link6, link7),
-                            actions: <Widget>[
-                              FlatButton(
-                                onPressed: () =>
-                                    Navigator.of(context).pop(false),
-                                /*Navigator.of(context).pop(true)*/
-                                child: Text('No',
-                                    style: TextStyle(
-                                        fontFamily: "RobotoBold",
-                                        color: Color(0xFF2BCDB4))),
-                              ),
-                            ],
-                          ),
-                        ) ??
-                        false;
-                  },
-                  child: Container(
-                    margin: EdgeInsets.only(
-                        left: 60.0, right: 60.0, top: 5.0, bottom: 5.0),
-                    child: Text(
-                      " Complete Your task ",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                  ),
-                ),
+                          ) ??
+                          false;
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(
+                          left: 60.0, right: 60.0, top: 5.0, bottom: 5.0),
+                      child: Text(
+                        " Complete Your task ",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )),
               ),
               SizedBox(height: 10.0),
             ],
@@ -834,105 +834,114 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
 
   SingleChildScrollView dataBody(List<dynamic> listIncome) {
     return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: DataTable(
-        sortColumnIndex: 0,
-        showCheckboxColumn: false,
-        columns: [
-          DataColumn(
-              label: Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(8),
-                          // color: Colors.green,
-                          // gradient: LinearGradient(
-                          //     begin: Alignment.topLeft,
-                          //     end: Alignment.topRight,
-                          //     colors: [
-                          //       Colors.green,
-                          //       Colors.transparent,
-                          //     ]),
-                          //color: Colors.black45, //Color(0xFF21283A),
-                          boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF21283A),
-                          blurRadius: 5.0,
-                          spreadRadius: 5.0,
-                        )
-                      ]),
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: Text("Date"),
-                  )),
-              numeric: false,
-              tooltip: "Next"),
-          DataColumn(
-            label: Container(
-                child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Text("Amount"),
-            )),
-            numeric: false,
-            tooltip: "Previous",
-          ),
-          DataColumn(
+      scrollDirection: Axis.horizontal,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        padding: EdgeInsets.all(1.2),
+        child: DataTable(
+          sortColumnIndex: 0,
+          showCheckboxColumn: false,
+          columns: [
+            DataColumn(
+                label: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      // color: Colors.green,
+                      // gradient: LinearGradient(
+                      //     begin: Alignment.topLeft,
+                      //     end: Alignment.topRight,
+                      //     colors: [
+                      //       Colors.green,
+                      //       Colors.transparent,
+                      //     ]),
+                      //color: Colors.black45, //Color(0xFF21283A),
+                      // boxShadow: [
+                      //   BoxShadow(
+                      //     color: Color(0xFF21283A),
+                      //     blurRadius: 5.0,
+                      //     spreadRadius: 5.0,
+                      //   )
+                      // ],
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text("Date"),
+                    )),
+                numeric: false,
+                tooltip: "Next"),
+            DataColumn(
               label: Container(
                   child: Padding(
                 padding: const EdgeInsets.all(10.0),
-                child: Text("Level"),
+                child: Text("Amount"),
               )),
               numeric: false,
-              tooltip: "Next"),
-        ],
-        rows: listIncome
-            .map(
-              (income) => DataRow(
-                  onSelectChanged: (b) {
-                    // print(sale.next);
-                  },
-                  cells: [
-                    DataCell(Container(
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: Text(
-                          income['date'],
-                          style: TextStyle(
-                              fontSize: 15.0,
-                              fontFamily: "Roboto",
-                              color: Colors.white),
-                        ),
-                      ),
-                    )),
-                    DataCell(
-                      Container(
+              tooltip: "Previous",
+            ),
+            DataColumn(
+                label: Container(
+                    child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text("Level"),
+                )),
+                numeric: false,
+                tooltip: "Next"),
+          ],
+          rows: listIncome
+              .map(
+                (income) => DataRow(
+                    onSelectChanged: (b) {
+                      // print(sale.next);
+                    },
+                    cells: [
+                      DataCell(Container(
                         child: Padding(
                           padding: const EdgeInsets.all(10.0),
                           child: Text(
-                            income['amount'].toString(),
+                            income['date'],
                             style: TextStyle(
                                 fontSize: 15.0,
                                 fontFamily: "Roboto",
-                                color: Colors.white),
+                                color: Colors.black),
+                          ),
+                        ),
+                      )),
+                      DataCell(
+                        Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Text(
+                              income['amount'].toString(),
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontFamily: "Roboto",
+                                  color: Colors.black),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    DataCell(
-                      Container(
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text(
-                            income['level'].toString(),
-                            style: TextStyle(
-                                fontSize: 15.0,
-                                fontFamily: "Roboto",
-                                color: Colors.white),
+                      DataCell(
+                        Container(
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Text(
+                              income['level'].toString() +
+                                  " " +
+                                  "(" +
+                                  income['activated_user']['username'] +
+                                  ")".toString(),
+                              style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontFamily: "Roboto",
+                                  color: Colors.black),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ]),
-            )
-            .toList(),
+                    ]),
+              )
+              .toList(),
+        ),
       ),
     );
   }
@@ -946,24 +955,25 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
         columns: [
           DataColumn(
               label: Container(
-                  decoration:
-                      BoxDecoration(borderRadius: BorderRadius.circular(8),
-                          // color: Colors.green,
-                          // gradient: LinearGradient(
-                          //     begin: Alignment.topLeft,
-                          //     end: Alignment.topRight,
-                          //     colors: [
-                          //       Colors.green,
-                          //       Colors.transparent,
-                          //     ]),
-                          //color: Colors.black45, //Color(0xFF21283A),
-                          boxShadow: [
-                        BoxShadow(
-                          color: Color(0xFF21283A),
-                          blurRadius: 5.0,
-                          spreadRadius: 5.0,
-                        )
-                      ]),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    // color: Colors.green,
+                    // gradient: LinearGradient(
+                    //     begin: Alignment.topLeft,
+                    //     end: Alignment.topRight,
+                    //     colors: [
+                    //       Colors.green,
+                    //       Colors.transparent,
+                    //     ]),
+                    //color: Colors.black45, //Color(0xFF21283A),
+                    // boxShadow: [
+                    //   BoxShadow(
+                    //     color: Color(0xFF21283A),
+                    //     blurRadius: 5.0,
+                    //     spreadRadius: 5.0,
+                    //   )
+                    // ],
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: Text("Date"),
@@ -1003,7 +1013,7 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
                           style: TextStyle(
                               fontSize: 15.0,
                               fontFamily: "Roboto",
-                              color: Colors.white),
+                              color: Colors.black),
                         ),
                       ),
                     )),
@@ -1016,7 +1026,7 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
                             style: TextStyle(
                                 fontSize: 15.0,
                                 fontFamily: "Roboto",
-                                color: Colors.white),
+                                color: Colors.black),
                           ),
                         ),
                       ),
@@ -1030,7 +1040,7 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
                             style: TextStyle(
                                 fontSize: 15.0,
                                 fontFamily: "Roboto",
-                                color: Colors.white),
+                                color: Colors.black),
                           ),
                         ),
                       ),
@@ -1045,7 +1055,7 @@ class _IncomeState extends State<Income> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF21283A),
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text("Purchased Packages"),
         bottom: getTabBar(),

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vam/Components/animate.dart';
+import 'package:vam/screens/dashboard.dart';
 import 'package:vam/screens/payment.dart';
+import 'package:vam/screens/w_history.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:share/share.dart';
 import 'package:social_share/social_share.dart';
@@ -17,13 +20,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  var _formKey = GlobalKey<FormState>();
   TextEditingController _textFieldController = TextEditingController();
   TextEditingController _userFundTransferController = TextEditingController();
   TextEditingController _amountFundTransferController = TextEditingController();
+  TextEditingController _withdrawalController = TextEditingController();
+  TextEditingController _addressController = TextEditingController();
   String total_income = "";
   String total_withdrawal = "";
   String total_profit = "";
   bool isData = false;
+  String username = "";
 
   @override
   void initState() {
@@ -32,11 +39,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _launchURL() async =>
-      await canLaunch("https://www.cryptocraze.co.in/add_tron/")
-          ? await launch("https://www.cryptocraze.co.in/add_tron/")
+      await canLaunch("https://www.cryptocraze.co.in/add-fund/")
+          ? await launch("https://www.cryptocraze.co.in/add-fund/")
           : throw 'Could not launch https://www.cryptocraze.co.in/add_tron/';
 
-  Future fetchData() async {
+  Future<List<dynamic>> fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String token = prefs.getString("token");
     token = "Token " + token;
@@ -56,17 +63,80 @@ class _HomePageState extends State<HomePage> {
       },
       // body: body,
     );
+    print(res.body);
+    print(res.statusCode);
     var responseData = json.decode(res.body);
-
     if (res.statusCode == 200) {
-      print(res.body);
       setState(() {
         total_income = responseData['total_income'].toString();
-        total_withdrawal = responseData['total_withdrawal'].toString();
+        total_withdrawal = responseData['total_Withdrawal'].toString();
         total_profit = responseData['total_profit'].toString();
+        username = responseData['username'].toString();
         isData = true;
       });
     } else {}
+
+    return responseData['data'];
+  }
+
+  void _onLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return Dialog(
+          child: new Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              new CircularProgressIndicator(),
+              new Text("Loading"),
+            ],
+          ),
+        );
+      },
+    );
+    new Future.delayed(new Duration(seconds: 5), () {
+      Navigator.push(context, SlideRightRoute(page: Dashboard()));
+      //pop dialog
+    });
+  }
+
+  Future _withdrawal() async {
+    _onLoading();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = prefs.getString("token");
+    token = "Token " + token;
+
+    Map data = {
+      "amount": _withdrawalController.text,
+      "wallet_address": _addressController.text,
+    };
+
+    var body = json.encode(data);
+
+    var url = Uri.parse('https://www.cryptocraze.co.in/api/withdrawal/');
+    var res = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        "Authorization": token,
+      },
+      body: body,
+    );
+    var responseData = json.decode(res.body);
+    print(res.body);
+    if (res.statusCode == 200) {
+      showDialog(
+        context: context,
+        builder: (context) =>
+            CustomDialog("Success", responseData['message'], "Okay", 3),
+      );
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) =>
+              CustomDialogError("Error", responseData['message'], "Cancel"));
+    }
   }
 
   Widget cardWidget(String name, String amount, String profit, String day) {
@@ -75,22 +145,23 @@ class _HomePageState extends State<HomePage> {
           margin: const EdgeInsets.all(15),
           padding: const EdgeInsets.all(5.0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.topRight,
-                  colors: [
-                    Colors.green,
-                    Colors.transparent,
-                  ]),
-              //color: Colors.black45, //Color(0xFF21283A),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0xFF21283A),
-                  blurRadius: 5.0,
-                  spreadRadius: 5.0,
-                )
-              ]),
+            borderRadius: BorderRadius.circular(8),
+            // gradient: LinearGradient(
+            //     begin: Alignment.topLeft,
+            //     end: Alignment.topRight,
+            //     colors: [
+            //       Colors.black,
+            //       Colors.transparent,
+            //     ]),
+            color: Color(0xFF9a6632),
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Color(0xFF21283A),
+            //     blurRadius: 5.0,
+            //     spreadRadius: 5.0,
+            //   )
+            // ],
+          ),
           child: Column(
             children: [
               SizedBox(height: 10.0),
@@ -143,7 +214,7 @@ class _HomePageState extends State<HomePage> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Text(
-                        "      day     ",
+                        "      days     ",
                         style: TextStyle(color: Colors.white),
                       ),
                       Text(
@@ -223,7 +294,7 @@ class _HomePageState extends State<HomePage> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Are you sure you want add some tron!!'),
+            title: Text('Are you sure you want add some BUSD!!'),
             actions: <Widget>[
               FlatButton(
                 color: Colors.red,
@@ -245,10 +316,87 @@ class _HomePageState extends State<HomePage> {
                     Navigator.pop(context);
                   });
                   _launchURL();
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => Payment()),
-                  // );
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  Future<void> _displayTextInputDialogforwithdrawal(
+      BuildContext context) async {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  Text('Enter the amount BUSD!!'),
+                  TextFormField(
+                    controller: _addressController,
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return "Please enter the address.";
+                      }
+                    },
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(bottom: 0),
+                      labelText: 'Wallet Address...',
+                    ),
+                  ),
+                  TextFormField(
+                    controller: _withdrawalController,
+                    keyboardType: TextInputType.number,
+                    maxLength: 4,
+                    inputFormatters: [
+                      WhitelistingTextInputFormatter.digitsOnly
+                    ],
+                    validator: (String value) {
+                      if (value.isEmpty) {
+                        return "Please enter amount.";
+                      }
+                    },
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(bottom: 0),
+                      labelText: 'amount',
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                color: Colors.red,
+                textColor: Colors.white,
+                child: Text('CANCEL'),
+                onPressed: () {
+                  setState(() {
+                    Navigator.pop(context);
+                  });
+                },
+              ),
+              FlatButton(
+                color: Colors.green,
+                textColor: Colors.white,
+                child: Text('History'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WithdrawalHistory()),
+                  );
+                },
+              ),
+              FlatButton(
+                color: Colors.green,
+                textColor: Colors.white,
+                child: Text('OK'),
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    _withdrawal();
+                  }
                 },
               ),
             ],
@@ -317,19 +465,20 @@ class _HomePageState extends State<HomePage> {
           margin: const EdgeInsets.all(15),
           padding: const EdgeInsets.all(5.0),
           decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.topRight,
-                  colors: [Colors.orange, Colors.red]),
-              borderRadius: BorderRadius.circular(8),
-              //color: Colors.black45, //Color(0xFF21283A),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0xFF21283A),
-                  blurRadius: 5.0,
-                  spreadRadius: 5.0,
-                )
-              ]),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.topRight,
+                colors: [Colors.orange, Colors.red]),
+            borderRadius: BorderRadius.circular(8),
+            //color: Colors.black45, //Color(0xFF21283A),
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Color(0xFF21283A),
+            //     blurRadius: 5.0,
+            //     spreadRadius: 5.0,
+            //   )
+            // ],
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -389,19 +538,20 @@ class _HomePageState extends State<HomePage> {
           margin: const EdgeInsets.all(15),
           padding: const EdgeInsets.all(5.0),
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.topRight,
-                  colors: [Colors.orange, Colors.red]),
-              //color: Colors.black45, //Color(0xFF21283A),
-              boxShadow: [
-                BoxShadow(
-                  color: Color(0xFF21283A),
-                  blurRadius: 5.0,
-                  spreadRadius: 5.0,
-                )
-              ]),
+            borderRadius: BorderRadius.circular(8),
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.topRight,
+                colors: [Colors.orange, Colors.red]),
+            //color: Colors.black45, //Color(0xFF21283A),
+            // boxShadow: [
+            //   BoxShadow(
+            //     color: Color(0xFF21283A),
+            //     blurRadius: 5.0,
+            //     spreadRadius: 5.0,
+            //   )
+            // ],
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -428,22 +578,27 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-              Container(
-                child: Column(
-                  children: [
-                    SizedBox(height: 20.0),
-                    Icon(
-                      Icons.money,
-                      color: Colors.black,
-                      size: 36.0,
-                    ),
-                    SizedBox(height: 10.0),
-                    Text(
-                      "Withdraw",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    SizedBox(height: 20.0),
-                  ],
+              InkWell(
+                onTap: () {
+                  _displayTextInputDialogforwithdrawal(context);
+                },
+                child: Container(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 20.0),
+                      Icon(
+                        Icons.money,
+                        color: Colors.black,
+                        size: 36.0,
+                      ),
+                      SizedBox(height: 10.0),
+                      Text(
+                        "Withdraw",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      SizedBox(height: 20.0),
+                    ],
+                  ),
                 ),
               ),
               InkWell(
@@ -475,7 +630,8 @@ class _HomePageState extends State<HomePage> {
               ),
               InkWell(
                 onTap: () {
-                  Share.share('check');
+                  Share.share(
+                      'https://www.cryptocraze.co.in/account/sign-up/$username');
                 },
                 child: Container(
                   child: Column(
@@ -568,14 +724,6 @@ class _HomePageState extends State<HomePage> {
         showIndicator: true,
         indicatorBgPadding: 7.0,
         images: [
-          // Container(
-          //   margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
-          //   child: Image(
-          //     image: AssetImage('assets/images/crypto.png'),
-          //     height: 220.0,
-          //     width: 220.0,
-          //   ),
-          // ),
           Container(
             margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
             child: Image(
@@ -584,16 +732,70 @@ class _HomePageState extends State<HomePage> {
               width: 220.0,
             ),
           ),
-          NetworkImage(
-              'https://media.istockphoto.com/photos/popular-social-media-website-logos-on-computer-screen-picture-id477420084'),
-          NetworkImage(
-              'https://cdn.pixabay.com/photo/2015/01/09/11/08/startup-594090__340.jpg'),
-          NetworkImage(
-              'https://media.istockphoto.com/photos/man-sitting-the-macbook-retina-with-site-google-on-screen-picture-id502558343?s=612x612'),
-          NetworkImage(
-              'https://cdn.pixabay.com/photo/2015/01/09/11/08/startup-594090__340.jpg'),
-          NetworkImage(
-              'https://media.istockphoto.com/photos/pyramid-of-social-media-icons-facebook-on-top-picture-id521107425?s=612x612'),
+          Container(
+            margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
+            child: Image(
+              image: AssetImage('assets/images/vam1.jpeg'),
+              height: 220.0,
+              width: 220.0,
+            ),
+          ),
+          Container(
+            margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
+            child: Image(
+              image: AssetImage('assets/images/vam2.jpeg'),
+              height: 220.0,
+              width: 220.0,
+            ),
+          ),
+          Container(
+            margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
+            child: Image(
+              image: AssetImage('assets/images/vam3.jpeg'),
+              height: 220.0,
+              width: 220.0,
+            ),
+          ),
+          Container(
+            margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
+            child: Image(
+              image: AssetImage('assets/images/vam4.jpeg'),
+              height: 220.0,
+              width: 220.0,
+            ),
+          ),
+          Container(
+            margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
+            child: Image(
+              image: AssetImage('assets/images/vam5.jpeg'),
+              height: 220.0,
+              width: 220.0,
+            ),
+          ),
+          Container(
+            margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
+            child: Image(
+              image: AssetImage('assets/images/vam6.jpeg'),
+              height: 220.0,
+              width: 220.0,
+            ),
+          ),
+          Container(
+            margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
+            child: Image(
+              image: AssetImage('assets/images/vam7.jpeg'),
+              height: 220.0,
+              width: 220.0,
+            ),
+          ),
+          Container(
+            margin: new EdgeInsets.only(right: 35, left: 35, bottom: 10),
+            child: Image(
+              image: AssetImage('assets/images/vam8.jpeg'),
+              height: 220.0,
+              width: 220.0,
+            ),
+          ),
         ],
       ),
     );

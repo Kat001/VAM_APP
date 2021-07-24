@@ -4,6 +4,7 @@ import 'package:vam/screens/home.dart';
 import 'package:vam/screens/plan%20.dart';
 import 'package:vam/screens/profile.dart';
 import 'package:vam/screens/income.dart';
+import 'package:vam/screens/task.dart';
 
 class Dashboard extends StatefulWidget {
   @override
@@ -16,6 +17,7 @@ class _DashboardState extends State<Dashboard> {
   final List<Widget> _widgetOptions = <Widget>[
     Home(),
     Income(),
+    Task(),
     Profile(),
   ];
 
@@ -48,6 +50,10 @@ class _DashboardState extends State<Dashboard> {
           BottomNavigationBarItem(
             icon: new Icon(Icons.money),
             title: Text('Income'),
+          ),
+          BottomNavigationBarItem(
+            icon: new Icon(Icons.task),
+            title: Text('Tasks'),
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),

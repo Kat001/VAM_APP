@@ -13,6 +13,7 @@ import 'package:vam/screens/setnewpassword.dart';
 import 'package:vam/screens/signup.dart';
 import 'package:vam/screens/team.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:vam/screens/w_history.dart';
 
 void main() => runApp(Myapp());
 

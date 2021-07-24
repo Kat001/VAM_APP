@@ -32,6 +32,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 padding: const EdgeInsets.only(bottom: 0.0),
                 child: Text(
                   "HOME",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),
@@ -40,6 +43,9 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
                 padding: const EdgeInsets.only(bottom: 0.0),
                 child: Text(
                   "MY TEAM",
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
                 ),
               ),
             ),
@@ -57,19 +63,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.topRight,
-                      colors: [Colors.blue, Colors.red]),
-                  borderRadius: BorderRadius.circular(8),
-                  //color: Colors.black45, //Color(0xFF21283A),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xFF21283A),
-                      blurRadius: 5.0,
-                      spreadRadius: 5.0,
-                    )
-                  ]),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.topRight,
+                    colors: [Colors.blue, Colors.red]),
+                borderRadius: BorderRadius.circular(8),
+                //color: Colors.black45, //Color(0xFF21283A),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Color(0xFF21283A),
+                //     blurRadius: 5.0,
+                //     spreadRadius: 5.0,
+                //   )
+                // ],
+              ),
               child: ListTile(
                 leading: Icon(Icons.people_sharp),
                 title: Text(
@@ -96,19 +103,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.topRight,
-                      colors: [Colors.green, Colors.red]),
-                  borderRadius: BorderRadius.circular(8),
-                  //color: Colors.black45, //Color(0xFF21283A),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xFF21283A),
-                      blurRadius: 5.0,
-                      spreadRadius: 5.0,
-                    )
-                  ]),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.topRight,
+                    colors: [Colors.green, Colors.red]),
+                borderRadius: BorderRadius.circular(8),
+                //color: Colors.black45, //Color(0xFF21283A),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Color(0xFF21283A),
+                //     blurRadius: 5.0,
+                //     spreadRadius: 5.0,
+                //   )
+                // ],
+              ),
               child: ListTile(
                 leading: Icon(Icons.people_sharp),
                 title: Text(
@@ -133,19 +141,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.topRight,
-                      colors: [Colors.pink, Colors.red]),
-                  borderRadius: BorderRadius.circular(8),
-                  //color: Colors.black45, //Color(0xFF21283A),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xFF21283A),
-                      blurRadius: 5.0,
-                      spreadRadius: 5.0,
-                    )
-                  ]),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.topRight,
+                    colors: [Colors.pink, Colors.red]),
+                borderRadius: BorderRadius.circular(8),
+                //color: Colors.black45, //Color(0xFF21283A),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Color(0xFF21283A),
+                //     blurRadius: 5.0,
+                //     spreadRadius: 5.0,
+                //   )
+                // ],
+              ),
               child: ListTile(
                 leading: Icon(Icons.people_sharp),
                 title: Text(
@@ -171,19 +180,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.topRight,
-                      colors: [Colors.teal, Colors.red]),
-                  borderRadius: BorderRadius.circular(8),
-                  //color: Colors.black45, //Color(0xFF21283A),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xFF21283A),
-                      blurRadius: 5.0,
-                      spreadRadius: 5.0,
-                    )
-                  ]),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.topRight,
+                    colors: [Colors.teal, Colors.red]),
+                borderRadius: BorderRadius.circular(8),
+                //color: Colors.black45, //Color(0xFF21283A),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Color(0xFF21283A),
+                //     blurRadius: 5.0,
+                //     spreadRadius: 5.0,
+                //   )
+                // ],
+              ),
               child: ListTile(
                 leading: Icon(Icons.people_sharp),
                 title: Text(
@@ -209,19 +219,20 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
               margin: const EdgeInsets.all(10),
               padding: const EdgeInsets.all(5.0),
               decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.topRight,
-                      colors: [Colors.orange, Colors.red]),
-                  borderRadius: BorderRadius.circular(8),
-                  //color: Colors.black45, //Color(0xFF21283A),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xFF21283A),
-                      blurRadius: 5.0,
-                      spreadRadius: 5.0,
-                    )
-                  ]),
+                gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.topRight,
+                    colors: [Colors.orange, Colors.red]),
+                borderRadius: BorderRadius.circular(8),
+                //color: Colors.black45, //Color(0xFF21283A),
+                // boxShadow: [
+                //   BoxShadow(
+                //     color: Color(0xFF21283A),
+                //     blurRadius: 5.0,
+                //     spreadRadius: 5.0,
+                //   )
+                // ],
+              ),
               child: ListTile(
                 leading: Icon(Icons.people_sharp),
                 title: Text(
@@ -252,7 +263,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       //extendBodyBehindAppBar: true,
-      backgroundColor: Color(0xFF21283A),
+      backgroundColor: Colors.white, //Color(0xFF21283A),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
